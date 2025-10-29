@@ -1,0 +1,26 @@
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# PHP
+vendor/
+composer.lock
+
+# Logs & cache
+*.log
+cache/
+tmp/
+
+# Env/Secrets (لا ترفعهم أبداً)
+.env
+.env.local
+config.php
+ConnectDB.php
+
+# Node (لو استخدمت)
+node_modules/
+
+# Videos (لو كبيرة ومش عايز LFS)
+# videos/

@@ -1,0 +1,260 @@
+
+body {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    color: white; 
+    text-align: center;
+    z-index: 2; 
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.header {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.header h1 {
+    font-size: 2.5rem;
+}
+/* ------------------------------ << video section >> ------------------------------ */
+.videobackground{
+    position: relative; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px; /* Fixed height as requested */
+    overflow: hidden;
+    border: 3.2px solid #424040;
+    margin-top: 20px; /* Increased margin for spacing */
+    z-index: 1; 
+    border-radius: 8px; /* Added rounded corners for aesthetics */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.videobackground::after {
+    content: ''; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Black with 40% opacity */
+    z-index: 2; 
+}
+#myVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the container */
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* z-index is implicitly 1, below the ::after overlay (z-index 2) */
+}
+
+/* Content (Current Weather) on Video */
+.titleOnVideo {
+    position: absolute;
+    top: 0;
+    left: 20px; /* Aligned slightly to the left */
+    width: auto; /* Allow width to be content-driven */
+    height: 100%; 
+    z-index: 3; /* Must be higher than overlay (2) */
+    color: white; 
+            
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    align-items: center; /* Centers content vertically within the 200px strip */
+    gap: 15px; /* Spacing between "The weather Now is" and "22C" */
+}
+
+.titleOnVideo p {
+    margin: 0; /* Remove default paragraph margins */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.titleOnVideo p:first-child {
+    font-size: 2.2em;
+    font-weight: 300; /* Lighter weight */
+}
+.titleOnVideo p:last-child {
+    font-size: 4em; /* Make the temperature bigger */
+    font-weight: bold;
+    line-height: 1;
+}
+        
+/* ------------------------------ << Previous Temperature Styles (ADJUSTED) >> ------------------------------ */
+.weekly-forecast {
+    position: absolute;
+    bottom: 10px; /* Position it towards the bottom of the video strip */
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 3;
+    
+    display: flex; /* Enable Flexbox for horizontal layout */
+    justify-content: space-between; /* Distribute items evenly, pushing ends to the edges */
+    align-items: flex-start; 
+    flex-wrap: nowrap; /* Keeps all items on one line, allowing them to shrink */
+}
+        
+.daily-item {
+    display: flex;
+    flex-direction: column; /* Stack day label and temperature vertically */
+    align-items: center; /* Center text within each item */
+    text-align: center;
+    flex-grow: 1; /* Allows items to take up equal space when available */
+    min-width: 0; /* Allows shrinking on small screens */
+    color: #ff8c6b; /* Soft orange/red color for historical data */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
+    padding: 0 5px; /* Small padding to prevent text collision */
+}
+
+.daily-item #temp-value-1 #temp-value-2 #temp-value-3 #temp-value-4 #temp-value-5 #temp-value-6 #temp-value-7 {
+    font-size: 0.9em;
+    font-weight: 500;
+    /* Hide the "was" part on smaller screens if they need to wrap */
+    white-space: nowrap; 
+}
+
+.daily-item #temp-value-1 #temp-value-2 #temp-value-3 #temp-value-4 #temp-value-5 #temp-value-6 #temp-value-7 {
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+.pages-title {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* ------------------------------ << Control Box >> ------------------------------ */
+
+.control-box {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    width: 100%;
+    padding: 0.2px 1;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+}
+.title-control-box{
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2px;
+    padding-top: 10px;
+}
+.button-control-box{
+    width: 100%;
+    display: flex;
+    
+}
+
+.iot-section-button {
+    flex-grow: 1; 
+    width: 50%; 
+    padding: 15px 0; 
+    text-align: center;
+    color: #333; 
+    font-weight: bold;
+    box-sizing: border-box; 
+
+    border: none; 
+    outline: none; 
+    cursor: pointer; 
+    font-family: inherit; 
+    font-size: inherit; 
+}
+
+.button-data{
+    flex-grow: 1;
+    font-size: 2rem;
+    width: 50%;
+    padding: 15px 0; 
+    text-align: center;
+    background-color: #fcf8e3;
+    color: #333; 
+    font-weight: bold;
+    box-sizing: border-box 
+}
+.button-control {
+    flex-grow: 1;
+    font-size: 2rem;
+    width: 50%;
+    padding: 15px 0; 
+    text-align: center;
+    background-color: #d4edda; 
+    color: #333; 
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+/* ------------------------------ << Buttons changes >> ------------------------------ */
+
+/* When hovering over the Data wrapper: increase its color intensity */
+.button-data:hover {
+  background-color: #fce8a5; /* Slightly darker yellow/beige */
+}
+
+/* When hovering over the Control wrapper: decrease its color intensity */
+.button-control:hover {
+  background-color: #e6f1e8; /* Slightly lighter green */
+}
+
+/* 2. ACTIVE/CLICKED STATE */
+
+/* A class added by JavaScript to keep the *Data* button colored */
+.button-data.active {
+    background-color: #fce8a5; /* Same as hover, or a different color if preferred */
+}
+
+/* A class added by JavaScript to keep the *Control* button light */
+.button-control.active {
+    background-color: #e6f1e8; /* Same as hover, or a different color if preferred */
+}
+
+/* 3. CONTENT Toggling */
+
+/* Default style for content containers */
+.content-box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none; /* Make it visually continuous with the control-box */
+    background-color: #ffffff;
+}
+
+/* Style to hide content */
+.hidden {
+    display: none !important;
+}
+
+/* Also ensure your .active classes are defined to hold the color */
+.button-data.active {
+    background-color: #fce8a5 !important; 
+}
+.button-control.active {
+    background-color: #e6f1e8 !important; 
+}
