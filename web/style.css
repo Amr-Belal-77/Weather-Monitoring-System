@@ -25,7 +25,7 @@ body {
     font-weight: bold;
     text-align: center;
     width: 100%;
-    padding: 20px 0;
+    padding: 15px 0;
     box-sizing: border-box;
     background-color: #ffffff;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -258,3 +258,166 @@ body {
 .button-control.active {
     background-color: #e6f1e8 !important; 
 }
+
+/* ------------------------------ << IOT Data Table >> ------------------------------ */
+        
+        .table-iot-data {
+            width: 100%;
+            border-collapse:collapse ;
+            border-spacing: 100px; /* Increased space between cells */
+            margin: 0 auto;
+            table-layout: fixed;
+            /* max-width: 1200px; */
+        }
+
+        .table-iot-data tr {
+        display: flex;
+        gap: 20px;              /* مسافة بين الكروت */
+        justify-content: center;/* وسّطهم */
+        align-items: stretch;
+        }
+
+        /* كل خلية (= الكرت) تاخد نفس العرض */
+        .table-iot-data td {
+            flex: 1 1 0;
+        }
+
+        /* Responsive Layout for small screens (stack columns) */
+        @media (max-width: 768px) {
+            .table-iot-data {
+                display: block;
+                width: 100%;
+            }
+            .table-iot-data tr {
+                display: flex;
+                flex-direction: column;
+                gap: 20px; /* Space between stacked cards */
+            }
+            .table-iot-data td {
+                width: 100% !important;
+                display: block;
+                padding: 0;
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(4); /* Increased scale for full coverage */
+                opacity: 0;
+            }
+        }
+
+        /* --- Individual Data Card Styling --- */
+        .data-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px 10px;
+            height: 100px;
+            
+            /* Center and stack content */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* **Ripple/Wave Setup** */
+            position: relative; 
+            overflow: hidden;   
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .data-card:hover {
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* --- Ripple Pseudo-Element --- */
+        .data-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px; /* Base size of the ripple */
+            height: 50px;
+            background: rgba(44, 62, 80, 0.15); /* Subtly darker ripple */
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            z-index: 1; 
+        }
+
+        /* --- Hover Effect: Start the Animation --- */
+        .data-card:hover::before {
+            animation: ripple 0.8s ease-out; 
+        }
+
+        /* --- Text Styling --- */
+        .card-label {
+            font-size: 0.9em;
+            color: #2c3e50;
+            text-transform: uppercase;
+            font-weight: 500;
+            opacity: 0.7;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 2; /* Keep text above the ripple */
+        }
+
+        .card-value {
+            font-size: 2.4em; 
+            font-weight: 800;
+            color: #2c3e50;
+            line-height: 1.1;
+            position: relative;
+            z-index: 2; /* Keep text above the ripple */
+        }
+
+        /* --- Decision Card (Play Golf) Styling --- */
+        .decision-card {
+            background-color: #34495e;
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .decision-card .card-label {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .decision-card .card-value {
+            color: white; 
+        }
+
+        /* --- Decision Color Overrides (Applied by JS) --- */
+        .decision-value.yes { 
+            color: #2ecc71; /* Green for 'Yes' */
+        }
+        .decision-value.no { 
+            color: #e74c3c; /* Red for 'No' */
+        }
+        .decision-value.maybe {
+            color: #f1c40f; /* Yellow for 'Maybe/Calculating' */
+        }
+        
+        /* --- Chart Styling --- */
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .chart {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 10px;
+        }

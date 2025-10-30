@@ -1,39 +1,3 @@
-
-// get current hour
-const hour = new Date().getHours();
-const video = document.getElementById("bg-video");
-const source = video.querySelector("source");
-console.log("Hour is:", hour);  // هتظهر في الكونسول
-
-
-let videoSrc = "../videos/morning.mp4";
-
-if (hour >= 6 && hour < 12) {
-    videoSrc = "../videos/morning.mp4";
-}
-else if (hour >= 12 && hour < 18) {
-    videoSrc = "../videos/maghrib.mp4";
-}
-else if (hour >= 18 && hour < 21) {
-    videoSrc = "../videos/night.mp4";
-}
-else {
-    videoSrc = "../videos/rain.mp4";
-}
-
-console.log("Video source:", videoSrc); // اتأكد أي ملف اتختار
-
-source.setAttribute("src", videoSrc);
-video.load();
-
-
-
-
-
-
-
-
-
 // --- 1. Get references to all necessary HTML elements ---
     
 // The main title element
