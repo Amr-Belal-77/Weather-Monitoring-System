@@ -1,5 +1,5 @@
 
-<script src="..\ChartFile\plotly-latest.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 
 <?php
@@ -27,6 +27,16 @@ require 'ConnectDB.php';
     $Lth = count($T);
  } 
 
+    // Read latest value from IOTControl
+    $golf = "Maybe";
+
+    $Q = "SELECT AIpred FROM IOTControl LIMIT 1;";
+    $res = $ourconn->query($Q);
+
+    if ($res && $res->num_rows > 0) {
+        $row = $res->fetch_assoc();
+        $golf = $row["AIpred"];   // Play / Not Play
+    }
 ?>
 
 <script>
@@ -53,8 +63,7 @@ var Hum =  H.slice(-1);
 // Outlook
  Outlook = "";
  if (LDR == "LOW"){
- Outlook = "Sunny";
- }
+ Outlook = "Sunny";}
  else if (Rain<3000){ 
 Outlook = "Rainy";
  }
@@ -64,7 +73,7 @@ Outlook = "Rainy";
 
   // Temperature
  Temperature = "";
- if (Tm <= 5){
+ if (Tm <= 28){
  Temperature = "Cool";
  }
  else if (Tm <= 35){
@@ -90,41 +99,19 @@ Outlook = "Rainy";
  else {
  Windy = "True";
  }
-// --------------------------------------------------------- edit here --------------------
-// Play Golf Decision (NEW CODE)
-PlayGolf = "";
-if (Outlook === "Overcast") {
-    PlayGolf = "Yes";
-} 
-// 2. Check Outlook: Sunny or Rainy require further checks
-else if (Outlook === "Sunny") {
-    // For Sunny, check Humidity
-    if (Humidity === "Normal") {
-        PlayGolf = "Yes"; // Sunny & Normal Humidity = Play
-    } else {
-        PlayGolf = "No"; // Sunny & High Humidity = Don't Play
-    }
-} 
-// 3. Check Outlook: Rainy
-else if (Outlook === "Rainy") {
-    // For Rainy, check Windy
-    if (Windy === "True") {
-        PlayGolf = "No"; // Rainy & Windy = Don't Play
-    } else {
-        PlayGolf = "Yes"; // Rainy & Not Windy (False) = Play
-    }
-}
-// 4. Default/Fallback
-else {
-    PlayGolf = "Maybe"; 
-}
+
 // -----------------------------------------------------------------------------
 
+var PlayGolf = "<?= $golf ?>"; 
+
+// -----------------------------------------------------------------------------
      //  ----------- Display in HTML -------------
-    document.getElementById("outlook-data").innerText = `Outlook\n${Outlook}`;
-    document.getElementById("temp-data").innerText = `Temperature\n${Temperature}`;
-    document.getElementById("humidity-data").innerText = `Humidity\n${Humidity}`;
-    document.getElementById("wind-data").innerText = `Windy\n${Windy}`;
+    document.getElementById("outlook-value").innerText = Outlook;
+    document.getElementById("temp-value").innerText = Temperature;
+    document.getElementById("humidity-value").innerText = Humidity;
+    document.getElementById("wind-value").innerText = Windy;
+    document.getElementById("playgolf-value").innerText = PlayGolf;
+
     // document.getElementById("playgolf-data").innerText = `Play Golf\n `;
 
 // ----------- Data Visualization -------------
@@ -141,7 +128,7 @@ var layout = {
             plot_bgcolor: '#f9f9f9',
             paper_bgcolor: '#ffffff'};
 
-Plotly.newPlot("tem-chart", data, layout);
+Plotly.newPlot("wind-chart", data, layout);
 
 
 // Temperature Sensor (DH11 or DH22)

@@ -415,9 +415,98 @@ body {
             margin: 0 auto;
         }
 
+        /* مهم جداً: ندي للجراف مساحة ارتفاع */
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 30px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .chart {
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
             padding: 10px;
+            height: 320px !important;
+            min-height: 320px !important;
         }
+
+
+
+
+
+/* ------------------------------ << IOT Control >> ------------------------------ */
+/* ===== Mode Strip (Red / Green / Blue / AI Model) ===== */
+
+.mode-form {
+    margin: 20px auto;
+}
+
+.mode-strip {
+    display: flex;
+    justify-content: center;
+    gap: 20px;              /* مسافة بين الكروت */
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* نفس شكل الـ data-card تقريبًا */
+.mode-btn {
+    flex: 1 1 0;
+    height: 100px;          /* نفس ارتفاع الكارت */
+    padding: 0 10px;
+    
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    border-radius: 16px;    /* الكيرف بتاع الأطراف */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* نفس الشادو */
+    
+    display: flex;          /* عشان الكلام يبقى في النص */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+/* hover زي الكارت */
+.mode-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    filter: brightness(0.97);
+}
+
+/* الألوان زي ما اتفقنا */
+.mode-red {
+    background-color: #f9c8a5;
+    color: #000;
+}
+
+.mode-green {
+    background-color: #e5f4d2;
+    color: #000;
+}
+
+.mode-blue {
+    background-color: #dde7fb;
+    color: #000;
+}
+
+.mode-ai {
+    background-color: #3c3f43;
+    color: #fff;
+}
+
+/* لو عايز تميّز الزرار المختار */
+.mode-btn.active {
+    filter: brightness(0.9);
+}

@@ -6,55 +6,25 @@
         <meta name="description" content="A web-based weather monitoring system that provides real-time weather data and analytics.">
         <meta name="keywords" content="weather, monitoring, system, real-time, data, analytics">
         <meta name="author" content="Amr Belal, Mostafa Ibrahim, Mohamed Khaled, Mohamed Gamal, Mazen Khaled, Nora Mohamed">
-        <!-- <meta http-equiv="refresh" content="10"> -->
+        <meta http-equiv="refresh" content="10">
 
-        <script src="..\ChartFile\plotly-latest.min.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" type="text/css" href="style-iot-data.css">
         <script src="script.js" defer></script>
-        <!-- <script src="script-iot-data.js" defer></script> -->
+        <script src="script-iot-data.js" defer></script>
 
         
         <title>Weather Monitoring System</title>
         
         <?php
             // insert database connection
-            require 'ConnectDB.php';
+            // require 'ConnectDB.php';
+            require 'IOTData.php';
+
             
             
             $Current_time = date('Y-m-d H:i:s');
-            // $sql_insert = "INSERT INTO Temperature
-            //             VALUES('$Current_time','1234', False, '01', '25.5', '60.4')";
-            // $SubmetData = $ourconn->query($sql_insert);
-            // if ($SubmetData === TRUE) {
-            // } 
-            // else {
-            //     echo $ourconn->error;
-            // }
             
-            $sql_insert = "Select * from Temperature";
-            $result = $ourconn->query($sql_insert);
-            if ($result ->num_rows >0){
-                echo "<h2>Temperature Table:</h2>";
-                echo "<table border='1' cellpadding='8'>";
-                echo " <tr><th>Time</th><th>Wind</th><th>LDR</th><th>Rain</th><th>Temperature (°C)</th><th>Humidity (%)</th></tr>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>".$row["MyTime"]."</td>";
-                    echo "<td>".$row["Wind"]."</td>";
-                    echo "<td>".$row["LDR"]."</td>";
-                    echo "<td>".$row["Rain"]."</td>";
-                    echo "<td>".$row["Temp"]."</td>";
-                    echo "<td>".$row["Humidity"]."</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-            } 
-            else {
-                echo "No data found!";
-            }
-            require 'IOTData.php';
-            echo "The last recorded time (from array T) is: " . end($Temp) . "<br>";            // $ourconn->close();
             // $outlook = $Outlook;
             ?> 
     
@@ -73,37 +43,6 @@
                 <p >The weather Now is </p>
                 <p id ="actual-temperature"><?php echo end($Temp); ?></p>
             </div>
-
-            <div class="weekly-forecast">
-                <div class="daily-item">
-                    <span id="day-label-1">Saturday </span>
-                    <span id="temp-value-1">29&deg;C</span>
-                </div>
-                <div class="daily-item">
-                    <span class="day-label-2">Sunday </span>
-                    <span id="temp-value-2">30&deg;C</span>
-                </div>
-                <div class="daily-item">
-                    <span id="day-label-3">Monday </span>
-                    <span id="temp-value-3">31&deg;C</span>
-                </div>
-                <div class="daily-item">
-                    <span id="day-label-4">Tuesday </span>
-                    <span id="temp-value-4">25&deg;C</span>
-                </div>
-                <div class="daily-item">
-                    <span id="day-label-5">Wednesday </span>
-                    <span id="temp-value-5">33&deg;C</span>
-                </div>
-                <div class="daily-item">
-                    <span id="day-label-6">Thursday </span>
-                    <span id="temp-value-6">28&deg;C</span>
-                </div>
-                <div class="daily-item">
-                    <span id="day-label-7">Friday </span>
-                    <span id="temp-value-7">30&deg;C</span>
-                </div>
-            </div>    
         </div>
     </dev>
 
@@ -128,11 +67,12 @@
             <table class="table-iot-data">
                 <tr>
                 <?php
-                    $last_temp = end($Temp);
-                    $last_humidity = end($H);
-                    $last_wind = end($W);
-                    $last_rain = end($R);
-                    $last_ldr = end($L);
+                    $last_temp = $Temp ? end($Temp) : 0;
+                    $last_humidity = $H ? end($H) : 0;
+                    $last_wind = $W ? end($W) : 0;
+                    $last_rain = $R ? end($R) : 0;
+                    $last_ldr = $L ? end($L) : "LOW";
+
 
                     $temp_status = "";
                     if ($last_temp <= 5) {
@@ -146,60 +86,76 @@
                 <td id="outlook-data" class="data-card">
                     <span class="card-label">Outlook</span>
                     <!-- PHP initial value (will be overwritten by JS) -->
-                    <span class="card-value decision-value maybe"><?php echo $last_ldr; ?></span>
+                    <span class="card-value decision-value maybe" id="outlook-value"></span>
                 </td>
                 
                 <!-- TEMPERATURE DATA -->
                 <td id="temp-data" class="data-card">
                     <span class="card-label">Temperature</span>
-                    <span class="card-value"><?php echo $last_temp . " °C"; ?></span>
+                    <span class="card-value" id="temp-value"><?php echo $last_temp . " °C"; ?></span>
                 </td>
                 
                 <!-- HUMIDITY DATA -->
                 <td id="humidity-data" class="data-card">
                     <span class="card-label">Humidity</span>
-                    <span class="card-value"><?php echo $last_humidity . " %"; ?></span>
+                    <span class="card-value" id="humidity-value"></span>
                 </td>
                 
                 <!-- WIND DATA -->
                 <td id="wind-data" class="data-card">
                     <span class="card-label">Wind (Raw)</span>
-                    <span class="card-value"><?php echo $last_wind; ?></span>
+                    <span class="card-value" id="wind-value"></span>
                 </td>
                 
                 <!-- PLAY GOLF DECISION -->
                 <td id="playgolf-data" class="data-card decision-card">
                     <span class="card-label">Play Golf?</span>
                     <!-- The value and color class will be set by JavaScript -->
-                    <span class="card-value decision-value maybe">Calculating...</span>
+                    <span class="card-value decision-value maybe" id="playgolf-value"></span>
                 </td>
                 </tr>
             </table>
         </div>
 
 
-        <div>
-            <table class="chart-container">
-                <tr>
-                    <td id='outlook-chart' class="chart"></td>
-                    <td id='temp-chart' class="chart"></td>
-                </tr>
-                <tr>
-                    <td id='rain-chart' class="chart"></td>
-                    <td id='humidity-chart' class="chart"></td>
-                </tr>
-                <tr>
-                    <td id='ldr-chart' class="chart"></td>
-                </tr>
-            </table>
-        </div>
+        <!-- <div> -->
+                <div class="chart-container">
+                    <div id="wind-chart" class="chart"></div>
+                    <div id="temp-chart" class="chart"></div>
+                    <div id="rain-chart" class="chart"></div>
+                    <div id="humidity-chart" class="chart"></div>
+                    <div id="ldr-chart" class="chart"></div>
+                </div>
+
+
+        <!-- </div> -->
     </div>
 
     <div class="content-section hidden" id="iot-control-content">
-        <h3>Control Panel</h3>
-        <p>This section allows you to send commands to devices.</p>
+        <form method="POST" class="mode-form">
+
+            <div class="mode-strip">
+                <button type="submit" name="Switch" value="RED" class="mode-btn mode-red">
+                    Red
+                </button>
+
+                <button type="submit" name="Switch" value="GREEN" class="mode-btn mode-green">
+                    Green
+                </button>
+
+                <button type="submit" name="Switch" value="BLUE" class="mode-btn mode-blue">
+                    Blue
+                </button>
+
+                <button type="submit" name="Switch" value="AI Model" class="mode-btn mode-ai">
+                    AI Model
+                </button>
+            </div>
+        </form>
     </div>
 
-    
+        <?php require 'IOTData.php'; ?>   
+        <?php require 'IOTControl.php'; ?>   
+
     </body>
     </html>
