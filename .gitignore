@@ -22,5 +22,9 @@ ConnectDB.php
 # Node (لو استخدمت)
 node_modules/
 
-# Videos (لو كبيرة ومش عايز LFS)
-# videos/
+# Videos
+videos/
+
+# secrets / local configs
+web/config.php
+web/ConnectDB.php
