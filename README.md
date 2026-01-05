@@ -114,12 +114,74 @@ CREATE TABLE IF NOT EXISTS IOTControl(
 );
 
 INSERT INTO IOTControl VALUES ("0", "RED", "Not Play");
-````
 
-> Note (recommended): `LDR` is stored as `varbinary(6)` but you’re sending text like `HIGH/LOW`.
-> For cleaner DB design you can change it to `VARCHAR(6)` later (optional).
+
+## 🔌 Hardware Connections (Pin Mapping Used in This Project)
+
+> The following wiring reflects the exact connections used in this project (ESP32 + sensors + RGB LED).
+
+### ✅ ESP32 Pin Mapping
+| Component | ESP32 Pin | Type / Notes |
+|---|---:|---|
+| **DHT22 (Temperature & Humidity) – DATA** | **GPIO 22** | Digital |
+| **LDR (Light Sensor)** | **GPIO 27** | Analog (ADC) via voltage divider |
+| **Rain Sensor (AO)** | **GPIO 35** | Analog (ADC) |
+| **Wind (Variable Resistor / Potentiometer)** | **GPIO 34** | Analog (ADC) |
+| **RGB LED – Red** | **GPIO 19** | PWM output (use 220Ω resistor) |
+| **RGB LED – Green** | **GPIO 18** | PWM output (use 220Ω resistor) |
+| **RGB LED – Blue** | **GPIO 5** | PWM output (use 220Ω resistor) |
 
 ---
+
+### 🧷 Wiring Details
+
+#### 1) DHT22
+- **VCC → 3.3V**
+- **GND → GND**
+- **DATA → GPIO 22**
+- ✅ Recommended: add a **10kΩ pull-up resistor** between **DATA** and **VCC** if your DHT22 board does not already include it.
+
+---
+
+#### 2) LDR (Light Sensor) — Voltage Divider
+LDR must be connected as a voltage divider to read an analog value:
+
+- **3.3V → LDR → (Signal Node) → GPIO 27**
+- **(Signal Node) → 10kΩ resistor → GND**
+
+> GPIO 27 reads the light level as an analog value.
+
+---
+
+#### 3) Rain Sensor (Analog Output)
+- **VCC → 3.3V or 5V** (depends on your sensor module)
+- **GND → GND**
+- **AO → GPIO 35** (Analog input)
+
+---
+
+#### 4) Wind Input (Variable Resistor / Potentiometer)
+Wind is simulated using a potentiometer / variable resistor:
+
+- One side → **3.3V**
+- Other side → **GND**
+- Middle pin (wiper) → **GPIO 34** (Analog input)
+
+---
+
+#### 5) RGB LED
+Use series resistors for each channel (recommended **220Ω**):
+
+- **R → GPIO 19** (with 220Ω resistor)
+- **G → GPIO 18** (with 220Ω resistor)
+- **B → GPIO 5** (with 220Ω resistor)
+
+Common pin:
+- If **Common Cathode** → connect common pin to **GND**
+- If **Common Anode** → connect common pin to **3.3V** (LED logic may be inverted in code)
+
+---
+
 
 ## 🤖 AI Mode (Python ML)
 
