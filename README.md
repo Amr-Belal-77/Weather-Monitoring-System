@@ -1,4 +1,3 @@
-````md
 # 🌦️ Weather Monitoring System (ESP32 + PHP + MySQL + Python ML)
 
 An end-to-end **IoT Weather Monitoring** project where an **ESP32** reads sensor data (including **DHT22**) and sends it to a **PHP server** via HTTP POST. The backend stores readings in **MySQL**, visualizes them in a **web dashboard** (Plotly charts), and supports **Manual control** or **AI mode** (Python ML) to output a decision: **PLAY / NOT PLAY**.
@@ -114,7 +113,7 @@ CREATE TABLE IF NOT EXISTS IOTControl(
 );
 
 INSERT INTO IOTControl VALUES ("0", "RED", "Not Play");
-
+```
 
 ## 🔌 Hardware Connections (Pin Mapping Used in This Project)
 
@@ -219,14 +218,9 @@ The project uses a Python script (e.g., `PythonESP32.py`) to:
 
 ### 3) Python Setup (AI Mode)
 
-Create `requirements.txt` (recommended):
+use the existing `requirements.txt` (recommended):
 
-```txt
-mysql-connector-python
-joblib
-scikit-learn
-numpy
-```
+
 
 Install:
 
@@ -254,8 +248,8 @@ Open dashboard:
 
 In your ESP32 firmware:
 
-
+```
 String URL = "http://<YOUR_PC_LAN_IP>:8000/ESP32.php";
-
+```
 
 
